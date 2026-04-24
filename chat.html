@@ -62,7 +62,6 @@ body {
   overflow: hidden;
 }
 
-/* Left: banner + chat */
 .chat-zone {
   flex: 1;
   display: flex;
@@ -71,6 +70,7 @@ body {
   background: white;
 }
 
+/* Hero mini (above iframe) */
 .hero-mini {
   background: linear-gradient(135deg, #fff7e8 0%, #ffe8a8 100%);
   padding: 14px 28px;
@@ -141,6 +141,7 @@ iframe {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
+/* AI Coach card */
 .coach-card {
   display: flex;
   align-items: center;
@@ -208,16 +209,48 @@ iframe {
   flex-shrink: 0;
 }
 
+/* ==================================
+   Tips card with campus background
+   ================================== */
 .tips-card {
   background: linear-gradient(135deg, #fff9e5 0%, #ffeec7 100%);
   border: 1px solid #f0d890;
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+  padding: 16px;
+  padding-bottom: 80px; /* leave room for background image */
+}
+
+.tips-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  height: 100px;
+  background-image: url('tips-bg.png');
+  background-size: cover;
+  background-position: bottom center;
+  background-repeat: no-repeat;
+  opacity: 0.75;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.tips-content {
+  position: relative;
+  z-index: 1;
 }
 
 .tips-title {
   font-size: 14px;
   font-weight: 700;
   color: #8b6914;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .tips-text {
@@ -226,6 +259,7 @@ iframe {
   line-height: 1.5;
 }
 
+/* Prize card */
 .prize-card {
   background: linear-gradient(135deg, #fff3cd 0%, #ffe08a 100%);
   border: 1px solid #f5c842;
@@ -296,6 +330,7 @@ iframe {
   
   <aside class="sidebar">
     
+    <!-- AI Coach -->
     <div class="sidebar-card">
       <div class="coach-card">
         <img src="testudo-avatar.png" alt="" class="coach-avatar">
@@ -314,11 +349,15 @@ iframe {
       </div>
     </div>
     
+    <!-- Tips with campus bg -->
     <div class="sidebar-card tips-card">
-      <div class="tips-title">💡 Tips</div>
-      <div class="tips-text">The more details you share, the better feedback I can provide!</div>
+      <div class="tips-content">
+        <div class="tips-title">💡 Tips</div>
+        <div class="tips-text">The more details you share, the better feedback I can provide!</div>
+      </div>
     </div>
     
+    <!-- Prize -->
     <div class="sidebar-card prize-card">
       <span class="prize-trophy">🏆</span>
       <div class="prize-title">Think big.<br>Start here.<br>Go Terps! 🐢</div>
