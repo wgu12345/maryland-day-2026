@@ -6,20 +6,12 @@
 <title>Winners - Maryland Day AI Challenge 2026</title>
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
 html, body {
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: linear-gradient(135deg, #fff7e8 0%, #ffe8a8 50%, #ffd77d 100%);
 }
-
-body {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  padding: 20px;
-}
-
+body { display: flex; flex-direction: column; min-height: 100vh; padding: 20px; }
 .top-strip {
   background: white;
   padding: 12px 24px;
@@ -31,57 +23,20 @@ body {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   margin-bottom: 24px;
 }
-
 .top-strip img { height: 38px; }
 .top-strip .right-text { font-size: 13px; color: #333; font-weight: 500; }
 .top-strip .right-text strong { color: #E21833; }
-
-.container {
-  max-width: 700px;
-  margin: 0 auto;
-  width: 100%;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.hero {
-  text-align: center;
-  padding: 40px 20px 20px;
-}
-
-.hero .trophy {
-  font-size: 80px;
-  margin-bottom: 12px;
-  animation: bounce 2s ease-in-out infinite;
-}
-
+.container { max-width: 700px; margin: 0 auto; width: 100%; flex: 1; display: flex; flex-direction: column; }
+.hero { text-align: center; padding: 40px 20px 20px; }
+.hero .trophy { font-size: 80px; margin-bottom: 12px; animation: bounce 2s ease-in-out infinite; }
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-8px); }
 }
-
-.hero h1 {
-  font-size: 38px;
-  font-weight: 800;
-  color: #1a1a1a;
-  margin-bottom: 8px;
-  line-height: 1.2;
-}
-
+.hero h1 { font-size: 38px; font-weight: 800; color: #1a1a1a; margin-bottom: 8px; line-height: 1.2; }
 .hero h1 .highlight { color: #E21833; }
-
-.hero .subtitle {
-  font-size: 16px;
-  color: #666;
-  font-weight: 500;
-}
-
-.pre-state {
-  text-align: center;
-  padding: 40px 20px;
-}
-
+.hero .subtitle { font-size: 16px; color: #666; font-weight: 500; }
+.pre-state { text-align: center; padding: 40px 20px; }
 .pre-state .countdown-card {
   background: white;
   border-radius: 24px;
@@ -89,27 +44,9 @@ body {
   box-shadow: 0 8px 32px rgba(226, 24, 51, 0.15);
   border: 2px solid #ffd77d;
 }
-
-.pre-state .clock-icon {
-  font-size: 60px;
-  margin-bottom: 16px;
-}
-
-.pre-state h2 {
-  font-size: 26px;
-  font-weight: 800;
-  color: #E21833;
-  margin-bottom: 12px;
-  line-height: 1.3;
-}
-
-.pre-state p {
-  font-size: 15px;
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 8px;
-}
-
+.pre-state .clock-icon { font-size: 60px; margin-bottom: 16px; }
+.pre-state h2 { font-size: 26px; font-weight: 800; color: #E21833; margin-bottom: 12px; line-height: 1.3; }
+.pre-state p { font-size: 15px; color: #555; line-height: 1.6; margin-bottom: 8px; }
 .pre-state .countdown {
   font-size: 32px;
   font-weight: 800;
@@ -119,22 +56,8 @@ body {
   font-family: -apple-system, "SF Mono", Monaco, monospace;
   letter-spacing: 2px;
 }
-
-.pre-state .countdown-label {
-  font-size: 12px;
-  color: #999;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 600;
-}
-
-.winners-list {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  padding: 20px 0;
-}
-
+.pre-state .countdown-label { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+.winners-list { display: flex; flex-direction: column; gap: 14px; padding: 20px 0; }
 .winner-card {
   background: white;
   border-radius: 18px;
@@ -144,68 +67,22 @@ body {
   gap: 20px;
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
   border: 2px solid #f0f0f0;
-  transition: transform 0.2s;
 }
-
-.winner-card:hover { transform: translateY(-2px); }
-
 .winner-card.gold {
   background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%);
   border-color: #ffd700;
   box-shadow: 0 6px 20px rgba(255, 215, 0, 0.25);
 }
-
-.winner-card.silver {
-  background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%);
-  border-color: #c0c0c0;
-}
-
-.winner-card.bronze {
-  background: linear-gradient(135deg, #fff5e6 0%, #ffe5cc 100%);
-  border-color: #cd7f32;
-}
-
-.winner-medal {
-  font-size: 48px;
-  flex-shrink: 0;
-  width: 60px;
-  text-align: center;
-}
-
-.winner-info {
-  flex: 1;
-  min-width: 0;
-}
-
-.winner-rank {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  color: #888;
-  margin-bottom: 4px;
-}
-
+.winner-card.silver { background: linear-gradient(135deg, #fafafa 0%, #f0f0f0 100%); border-color: #c0c0c0; }
+.winner-card.bronze { background: linear-gradient(135deg, #fff5e6 0%, #ffe5cc 100%); border-color: #cd7f32; }
+.winner-medal { font-size: 48px; flex-shrink: 0; width: 60px; text-align: center; }
+.winner-info { flex: 1; min-width: 0; }
+.winner-rank { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: #888; margin-bottom: 4px; }
 .winner-card.gold .winner-rank { color: #b8860b; }
 .winner-card.silver .winner-rank { color: #707070; }
 .winner-card.bronze .winner-rank { color: #8b4513; }
-
-.winner-number {
-  font-size: 32px;
-  font-weight: 900;
-  color: #1a1a1a;
-  line-height: 1.1;
-  font-variant-numeric: tabular-nums;
-}
-
-.winner-company {
-  font-size: 16px;
-  color: #555;
-  font-weight: 600;
-  margin-top: 4px;
-  word-wrap: break-word;
-}
-
+.winner-number { font-size: 32px; font-weight: 900; color: #1a1a1a; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.winner-company { font-size: 16px; color: #555; font-weight: 600; margin-top: 4px; word-wrap: break-word; }
 .claim-section {
   background: white;
   border-radius: 20px;
@@ -214,52 +91,20 @@ body {
   text-align: center;
   border: 2px dashed #E21833;
 }
-
-.claim-section h3 {
-  font-size: 22px;
-  font-weight: 800;
-  color: #E21833;
-  margin-bottom: 12px;
-}
-
-.claim-section p {
-  font-size: 15px;
-  color: #444;
-  line-height: 1.6;
-  margin-bottom: 10px;
-}
-
-.claim-section .strong-text {
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.footer {
-  text-align: center;
-  margin-top: 30px;
-  padding: 20px;
-  font-size: 12px;
-  color: #888;
-}
-
+.claim-section h3 { font-size: 22px; font-weight: 800; color: #E21833; margin-bottom: 12px; }
+.claim-section p { font-size: 15px; color: #444; line-height: 1.6; margin-bottom: 10px; }
+.claim-section .strong-text { font-weight: 700; color: #1a1a1a; }
+.footer { text-align: center; margin-top: 30px; padding: 20px; font-size: 12px; color: #888; }
 @media (max-width: 600px) {
   body { padding: 12px; }
   .hero { padding: 24px 12px 12px; }
   .hero .trophy { font-size: 60px; }
   .hero h1 { font-size: 28px; }
-  .hero .subtitle { font-size: 14px; }
   .pre-state .countdown-card { padding: 28px 20px; }
   .pre-state h2 { font-size: 22px; }
   .pre-state .countdown { font-size: 26px; }
-  .winner-card { padding: 16px 18px; gap: 14px; }
-  .winner-medal { font-size: 36px; width: 44px; }
-  .winner-number { font-size: 26px; }
-  .winner-company { font-size: 14px; }
-  .top-strip { padding: 10px 16px; }
   .top-strip img { height: 30px; }
   .top-strip .right-text { font-size: 11px; }
-  .claim-section { padding: 20px; }
-  .claim-section h3 { font-size: 18px; }
 }
 </style>
 </head>
@@ -290,7 +135,6 @@ body {
   
   <div id="winners-state" style="display:none;">
     <div class="winners-list" id="winners-list"></div>
-    
     <div class="claim-section">
       <h3>🎉 Is this you?</h3>
       <p>Find a <span class="strong-text">Smith School volunteer</span> at the booth to claim your prize!</p>
@@ -300,23 +144,9 @@ body {
   
 </div>
 
-<div class="footer">
-  Powered by Smith School · Maryland Day 2026
-</div>
+<div class="footer">Powered by Smith School · Maryland Day 2026</div>
 
 <script>
-// ════════════════════════════════════════
-// 🎯 WINNERS CONFIGURATION
-// ════════════════════════════════════════
-// 
-// 2:15 PM 之前: WINNERS_PUBLISHED = false
-// 2:15 PM 之后: 改成 true 并填好 winners 数组,然后 commit
-// 
-// EVENT_DATE: 活动日期(year, month-1, day)
-// 例如 2026-04-25 是 new Date(2026, 3, 25, 14, 15, 0)
-// 注意:JavaScript 月份从 0 开始,4 月是 3
-// ════════════════════════════════════════
-
 const WINNERS_PUBLISHED = false;
 
 const winners = [
@@ -327,12 +157,7 @@ const winners = [
   { rank: 5, number: "131", company: "Campus Eats" }
 ];
 
-// 倒计时目标:2026年4月25日 14:15 (2:15 PM)
 const EVENT_TARGET = new Date(2026, 3, 25, 14, 15, 0);
-
-// ════════════════════════════════════════
-// Logic below
-// ════════════════════════════════════════
 
 function init() {
   if (WINNERS_PUBLISHED) {
@@ -378,8 +203,8 @@ function startCountdown() {
       return;
     }
     
-    const days = Math.floor(diff / (24 * 3600000));
-    const hours = Math.floor((diff % (24 * 3600000)) / 3600000);
+    const days = Math.floor(diff / 86400000);
+    const hours = Math.floor((diff % 86400000) / 3600000);
     const minutes = Math.floor((diff % 3600000) / 60000);
     const seconds = Math.floor((diff % 60000) / 1000);
     
@@ -398,7 +223,6 @@ function startCountdown() {
   setInterval(update, 1000);
 }
 
-// Wait for DOM ready
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
