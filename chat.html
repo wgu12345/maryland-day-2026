@@ -8,13 +8,7 @@
 <meta name="apple-mobile-web-app-title" content="Maryland Day">
 <title>Maryland Day AI Challenge - Chat</title>
 <style>
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  -webkit-tap-highlight-color: transparent;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 html, body {
   height: 100vh;
   width: 100%;
@@ -22,13 +16,8 @@ html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: #fafafa;
 }
+body { display: flex; flex-direction: column; }
 
-body {
-  display: flex;
-  flex-direction: column;
-}
-
-/* Top UMD strip */
 .top-strip {
   background: white;
   padding: 10px 24px;
@@ -39,28 +28,11 @@ body {
   flex-shrink: 0;
   z-index: 100;
 }
+.top-strip img { height: 36px; }
+.top-strip .right-text { font-size: 13px; color: #333; font-weight: 500; }
+.top-strip .right-text strong { color: #E21833; font-weight: 700; }
 
-.top-strip img {
-  height: 36px;
-}
-
-.top-strip .right-text {
-  font-size: 13px;
-  color: #333;
-  font-weight: 500;
-}
-
-.top-strip .right-text strong {
-  color: #E21833;
-  font-weight: 700;
-}
-
-/* Main area */
-.main-area {
-  flex: 1;
-  display: flex;
-  overflow: hidden;
-}
+.main-area { flex: 1; display: flex; overflow: hidden; }
 
 .chat-zone {
   flex: 1;
@@ -70,7 +42,6 @@ body {
   background: white;
 }
 
-/* Hero mini (above iframe) */
 .hero-mini {
   background: linear-gradient(135deg, #fff7e8 0%, #ffe8a8 100%);
   padding: 14px 28px;
@@ -80,47 +51,15 @@ body {
   border-bottom: 1px solid #eee;
   flex-shrink: 0;
 }
+.hero-mini img { height: 56px; }
+.hero-mini .welcome-text { flex: 1; }
+.hero-mini h2 { font-size: 17px; font-weight: 700; color: #1a1a1a; }
+.hero-mini h2 .highlight { color: #E21833; }
+.hero-mini p { font-size: 12px; color: #666; margin-top: 2px; }
 
-.hero-mini img {
-  height: 56px;
-}
+.chat-container { flex: 1; position: relative; overflow: hidden; background: white; }
+iframe { width: 100%; height: 100%; border: none; display: block; }
 
-.hero-mini .welcome-text {
-  flex: 1;
-}
-
-.hero-mini h2 {
-  font-size: 17px;
-  font-weight: 700;
-  color: #1a1a1a;
-}
-
-.hero-mini h2 .highlight {
-  color: #E21833;
-}
-
-.hero-mini p {
-  font-size: 12px;
-  color: #666;
-  margin-top: 2px;
-}
-
-/* Iframe */
-.chat-container {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  background: white;
-}
-
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-/* Sidebar */
 .sidebar {
   width: 280px;
   background: #f8f8f8;
@@ -132,7 +71,6 @@ iframe {
   overflow-y: auto;
   flex-shrink: 0;
 }
-
 .sidebar-card {
   background: white;
   border: 1px solid #eee;
@@ -141,7 +79,6 @@ iframe {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-/* AI Coach card */
 .coach-card {
   display: flex;
   align-items: center;
@@ -150,7 +87,6 @@ iframe {
   border-bottom: 1px solid #f0f0f0;
   margin-bottom: 14px;
 }
-
 .coach-avatar {
   width: 52px;
   height: 52px;
@@ -158,27 +94,10 @@ iframe {
   object-fit: cover;
   flex-shrink: 0;
 }
+.coach-title { font-size: 16px; font-weight: 700; color: #1a1a1a; line-height: 1.2; }
+.coach-sub { font-size: 11px; color: #888; margin-top: 2px; line-height: 1.3; }
 
-.coach-title {
-  font-size: 16px;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1.2;
-}
-
-.coach-sub {
-  font-size: 11px;
-  color: #888;
-  margin-top: 2px;
-  line-height: 1.3;
-}
-
-.section-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 10px;
-}
+.section-title { font-size: 14px; font-weight: 700; color: #1a1a1a; margin-bottom: 10px; }
 
 .progress-steps {
   display: flex;
@@ -187,13 +106,7 @@ iframe {
   font-size: 13px;
   color: #555;
 }
-
-.progress-step {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
+.progress-step { display: flex; align-items: center; gap: 10px; }
 .progress-step .num {
   width: 20px;
   height: 20px;
@@ -209,9 +122,6 @@ iframe {
   flex-shrink: 0;
 }
 
-/* ==================================
-   Tips card with campus background
-   ================================== */
 .tips-card {
   background: linear-gradient(135deg, #fff9e5 0%, #ffeec7 100%);
   border: 1px solid #f0d890;
@@ -219,9 +129,8 @@ iframe {
   overflow: hidden;
   min-height: 200px;
   padding: 16px;
-  padding-bottom: 80px; /* leave room for background image */
+  padding-bottom: 80px;
 }
-
 .tips-card::before {
   content: '';
   position: absolute;
@@ -229,7 +138,7 @@ iframe {
   right: 0;
   width: 100%;
   height: 100px;
-  background-image: url('tips-bg.png');
+  background-image: url('tip-bg.png');
   background-size: cover;
   background-position: bottom center;
   background-repeat: no-repeat;
@@ -237,12 +146,7 @@ iframe {
   z-index: 0;
   pointer-events: none;
 }
-
-.tips-content {
-  position: relative;
-  z-index: 1;
-}
-
+.tips-content { position: relative; z-index: 1; }
 .tips-title {
   font-size: 14px;
   font-weight: 700;
@@ -252,40 +156,17 @@ iframe {
   align-items: center;
   gap: 6px;
 }
+.tips-text { font-size: 12px; color: #6b5010; line-height: 1.5; }
 
-.tips-text {
-  font-size: 12px;
-  color: #6b5010;
-  line-height: 1.5;
-}
-
-/* Prize card */
 .prize-card {
   background: linear-gradient(135deg, #fff3cd 0%, #ffe08a 100%);
   border: 1px solid #f5c842;
   text-align: center;
   padding: 18px 14px;
 }
-
-.prize-trophy {
-  font-size: 40px;
-  margin-bottom: 4px;
-  display: block;
-}
-
-.prize-title {
-  font-size: 15px;
-  font-weight: 800;
-  color: #8b6914;
-  line-height: 1.35;
-}
-
-.prize-sub {
-  font-size: 11px;
-  color: #8b6914;
-  margin-top: 6px;
-  font-weight: 600;
-}
+.prize-trophy { font-size: 40px; margin-bottom: 4px; display: block; }
+.prize-title { font-size: 15px; font-weight: 800; color: #8b6914; line-height: 1.35; }
+.prize-sub { font-size: 11px; color: #8b6914; margin-top: 6px; font-weight: 600; }
 
 @media (max-width: 900px) {
   .sidebar { display: none; }
@@ -330,7 +211,6 @@ iframe {
   
   <aside class="sidebar">
     
-    <!-- AI Coach -->
     <div class="sidebar-card">
       <div class="coach-card">
         <img src="testudo-avatar.png" alt="" class="coach-avatar">
@@ -349,7 +229,6 @@ iframe {
       </div>
     </div>
     
-    <!-- Tips with campus bg -->
     <div class="sidebar-card tips-card">
       <div class="tips-content">
         <div class="tips-title">💡 Tips</div>
@@ -357,7 +236,6 @@ iframe {
       </div>
     </div>
     
-    <!-- Prize -->
     <div class="sidebar-card prize-card">
       <span class="prize-trophy">🏆</span>
       <div class="prize-title">Think big.<br>Start here.<br>Go Terps! 🐢</div>
