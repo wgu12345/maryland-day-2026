@@ -20,7 +20,6 @@ body {
   padding: 20px;
 }
 
-/* Top strip */
 .top-strip {
   background: white;
   padding: 12px 24px;
@@ -34,15 +33,9 @@ body {
 }
 
 .top-strip img { height: 38px; }
-
-.top-strip .right-text {
-  font-size: 13px;
-  color: #333;
-  font-weight: 500;
-}
+.top-strip .right-text { font-size: 13px; color: #333; font-weight: 500; }
 .top-strip .right-text strong { color: #E21833; }
 
-/* Main */
 .container {
   max-width: 700px;
   margin: 0 auto;
@@ -76,9 +69,7 @@ body {
   line-height: 1.2;
 }
 
-.hero h1 .highlight {
-  color: #E21833;
-}
+.hero h1 .highlight { color: #E21833; }
 
 .hero .subtitle {
   font-size: 16px;
@@ -86,7 +77,6 @@ body {
   font-weight: 500;
 }
 
-/* PRE-ANNOUNCEMENT STATE */
 .pre-state {
   text-align: center;
   padding: 40px 20px;
@@ -121,11 +111,13 @@ body {
 }
 
 .pre-state .countdown {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: #E21833;
   margin: 24px 0 12px;
   font-variant-numeric: tabular-nums;
+  font-family: -apple-system, "SF Mono", Monaco, monospace;
+  letter-spacing: 2px;
 }
 
 .pre-state .countdown-label {
@@ -136,7 +128,6 @@ body {
   font-weight: 600;
 }
 
-/* WINNERS STATE */
 .winners-list {
   display: flex;
   flex-direction: column;
@@ -156,9 +147,7 @@ body {
   transition: transform 0.2s;
 }
 
-.winner-card:hover {
-  transform: translateY(-2px);
-}
+.winner-card:hover { transform: translateY(-2px); }
 
 .winner-card.gold {
   background: linear-gradient(135deg, #fff8e1 0%, #fff3cd 100%);
@@ -217,7 +206,6 @@ body {
   word-wrap: break-word;
 }
 
-/* Claim section */
 .claim-section {
   background: white;
   border-radius: 20px;
@@ -246,7 +234,6 @@ body {
   color: #1a1a1a;
 }
 
-/* Footer */
 .footer {
   text-align: center;
   margin-top: 30px;
@@ -255,7 +242,6 @@ body {
   color: #888;
 }
 
-/* Mobile */
 @media (max-width: 600px) {
   body { padding: 12px; }
   .hero { padding: 24px 12px 12px; }
@@ -264,7 +250,7 @@ body {
   .hero .subtitle { font-size: 14px; }
   .pre-state .countdown-card { padding: 28px 20px; }
   .pre-state h2 { font-size: 22px; }
-  .pre-state .countdown { font-size: 24px; }
+  .pre-state .countdown { font-size: 26px; }
   .winner-card { padding: 16px 18px; gap: 14px; }
   .winner-medal { font-size: 36px; width: 44px; }
   .winner-number { font-size: 26px; }
@@ -279,7 +265,6 @@ body {
 </head>
 <body>
 
-<!-- Top strip -->
 <div class="top-strip">
   <img src="umd-logo.png" alt="University of Maryland">
   <div class="right-text">Maryland Day <strong>2026</strong> 🏆</div>
@@ -293,21 +278,18 @@ body {
     <div class="subtitle">Smith School Business Idea Competition</div>
   </div>
   
-  <!-- This div is shown/hidden by JS based on WINNERS_PUBLISHED -->
   <div id="pre-state" class="pre-state">
     <div class="countdown-card">
       <div class="clock-icon">⏰</div>
       <h2>Winners Announced<br>at 2:15 PM</h2>
       <p>Hold onto your slip!<br>Refresh this page at 2:15 PM to see the Top 5.</p>
-      <div class="countdown" id="countdown">--:--:--</div>
+      <div class="countdown" id="countdown">Loading...</div>
       <div class="countdown-label">Time until reveal</div>
     </div>
   </div>
   
   <div id="winners-state" style="display:none;">
-    <div class="winners-list" id="winners-list">
-      <!-- Winners injected by JS -->
-    </div>
+    <div class="winners-list" id="winners-list"></div>
     
     <div class="claim-section">
       <h3>🎉 Is this you?</h3>
@@ -329,9 +311,13 @@ body {
 // 
 // 2:15 PM 之前: WINNERS_PUBLISHED = false
 // 2:15 PM 之后: 改成 true 并填好 winners 数组,然后 commit
+// 
+// EVENT_DATE: 活动日期(year, month-1, day)
+// 例如 2026-04-25 是 new Date(2026, 3, 25, 14, 15, 0)
+// 注意:JavaScript 月份从 0 开始,4 月是 3
 // ════════════════════════════════════════
 
-const WINNERS_PUBLISHED = false;  // ⚠️ 活动当天 2pm 改成 true
+const WINNERS_PUBLISHED = false;
 
 const winners = [
   { rank: 1, number: "047", company: "Banana Unicorn Inc." },
@@ -341,8 +327,84 @@ const winners = [
   { rank: 5, number: "131", company: "Campus Eats" }
 ];
 
+// 倒计时目标:2026年4月25日 14:15 (2:15 PM)
+const EVENT_TARGET = new Date(2026, 3, 25, 14, 15, 0);
+
 // ════════════════════════════════════════
-// Logic below — don't edit unless you know what you're doing
+// Logic below
 // ════════════════════════════════════════
 
-if (WINNERS_PUBLISHED) {
+function init() {
+  if (WINNERS_PUBLISHED) {
+    showWinners();
+  } else {
+    startCountdown();
+  }
+}
+
+function showWinners() {
+  document.getElementById('pre-state').style.display = 'none';
+  document.getElementById('winners-state').style.display = 'block';
+  
+  const list = document.getElementById('winners-list');
+  const medals = ['🥇', '🥈', '🥉', '⭐', '⭐'];
+  const tierClass = ['gold', 'silver', 'bronze', '', ''];
+  const tierLabel = ['1st Place', '2nd Place', '3rd Place', '4th Place', '5th Place'];
+  
+  winners.forEach((w, i) => {
+    const card = document.createElement('div');
+    card.className = 'winner-card ' + tierClass[i];
+    card.innerHTML = 
+      '<div class="winner-medal">' + medals[i] + '</div>' +
+      '<div class="winner-info">' +
+        '<div class="winner-rank">' + tierLabel[i] + '</div>' +
+        '<div class="winner-number">#' + w.number + '</div>' +
+        '<div class="winner-company">' + w.company + '</div>' +
+      '</div>';
+    list.appendChild(card);
+  });
+}
+
+function startCountdown() {
+  function update() {
+    const el = document.getElementById('countdown');
+    if (!el) return;
+    
+    const now = new Date();
+    const diff = EVENT_TARGET.getTime() - now.getTime();
+    
+    if (diff <= 0) {
+      el.textContent = "🎉 Refresh now!";
+      return;
+    }
+    
+    const days = Math.floor(diff / (24 * 3600000));
+    const hours = Math.floor((diff % (24 * 3600000)) / 3600000);
+    const minutes = Math.floor((diff % 3600000) / 60000);
+    const seconds = Math.floor((diff % 60000) / 1000);
+    
+    const hh = String(hours).padStart(2, '0');
+    const mm = String(minutes).padStart(2, '0');
+    const ss = String(seconds).padStart(2, '0');
+    
+    if (days > 0) {
+      el.textContent = days + 'd ' + hh + ':' + mm + ':' + ss;
+    } else {
+      el.textContent = hh + ':' + mm + ':' + ss;
+    }
+  }
+  
+  update();
+  setInterval(update, 1000);
+}
+
+// Wait for DOM ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+</script>
+
+</body>
+</html>
