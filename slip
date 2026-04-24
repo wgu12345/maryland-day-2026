@@ -2,334 +2,291 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Print Slips - Maryland Day 2026</title>
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<title>Slip Generator - Maryland Day 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
+* { box-sizing: border-box; }
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background: #f0f0f0;
-  padding: 20px;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #f5f5f5;
 }
 
-/* Control panel - hidden when printing */
+/* Controls (hidden when printing) */
 .controls {
-  max-width: 800px;
-  margin: 0 auto 30px;
   background: white;
-  padding: 24px;
-  border-radius: 12px;
+  padding: 20px 24px;
+  border-bottom: 3px solid #E21833;
+  position: sticky;
+  top: 0;
+  z-index: 100;
   box-shadow: 0 2px 8px rgba(0,0,0,0.08);
 }
-
 .controls h1 {
-  font-size: 22px;
-  margin-bottom: 8px;
+  margin: 0 0 16px;
   color: #E21833;
+  font-size: 22px;
 }
-
-.controls p {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 16px;
-  line-height: 1.5;
-}
-
 .controls .row {
   display: flex;
-  gap: 12px;
-  align-items: center;
-  margin-bottom: 12px;
+  gap: 16px;
+  align-items: flex-end;
   flex-wrap: wrap;
 }
-
 .controls label {
-  font-size: 13px;
+  display: block;
+  font-size: 12px;
+  color: #666;
+  margin-bottom: 4px;
   font-weight: 600;
-  color: #333;
+  text-transform: uppercase;
 }
-
 .controls input {
-  padding: 8px 12px;
+  width: 90px;
+  padding: 9px 12px;
   border: 2px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  width: 80px;
+  border-radius: 8px;
+  font-size: 16px;
 }
-
 .controls button {
-  padding: 10px 24px;
   background: #E21833;
   color: white;
   border: none;
-  border-radius: 6px;
+  padding: 11px 24px;
+  border-radius: 8px;
   font-size: 14px;
   font-weight: 700;
   cursor: pointer;
 }
-
-.controls button:hover { background: #c01530; }
-
+.controls button:hover { background: #c41529; }
+.controls button.secondary {
+  background: #444;
+}
 .controls .info {
-  background: #fff9e5;
-  border: 1px solid #f0d890;
-  border-radius: 8px;
-  padding: 12px 16px;
-  font-size: 12px;
-  color: #6b5010;
-  line-height: 1.5;
+  margin-left: auto;
+  font-size: 13px;
+  color: #666;
+  max-width: 300px;
+  line-height: 1.4;
 }
 
-/* Print sheets */
-.print-area {
-  max-width: 800px;
-  margin: 0 auto;
-}
-
-/* Each page = A4 portrait, 2 columns × 5 rows = 10 slips */
-.page {
+/* Slips area */
+.slips-page {
   width: 210mm;
-  min-height: 297mm;
-  background: white;
+  min-height: 270mm;
+  margin: 20px auto;
   padding: 10mm;
-  margin: 0 auto 20px;
+  background: white;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(5, 1fr);
-  gap: 4mm;
-  page-break-after: always;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  grid-auto-rows: 42mm;
+  gap: 3mm;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
 }
-
 .slip {
-  border: 1.5px dashed #999;
-  border-radius: 8px;
-  padding: 6mm;
+  border: 1.5px dashed #aaa;
+  border-radius: 6px;
+  padding: 4mm;
+  display: flex;
+  gap: 3mm;
+  align-items: center;
+  page-break-inside: avoid;
+  break-inside: avoid;
+  background: #fffef8;
+}
+.slip-left {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  position: relative;
-  background: white;
-  min-height: 50mm;
+  justify-content: center;
 }
-
-.slip-header {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 4px;
-  margin-bottom: 4px;
-}
-
-.slip-header img {
-  height: 16px;
-}
-
-.slip-header-title {
-  font-size: 8px;
+.slip-title {
+  font-size: 8pt;
   font-weight: 700;
   color: #E21833;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  line-height: 1.2;
+  margin-bottom: 1mm;
 }
-
-.slip-body {
-  display: flex;
-  gap: 8px;
-  flex: 1;
-  align-items: center;
-}
-
-.slip-text {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
 .slip-number {
-  font-size: 26px;
+  font-size: 24pt;
   font-weight: 900;
-  color: #E21833;
+  color: #1a1a1a;
   line-height: 1;
+  margin: 0.5mm 0 2mm;
   font-variant-numeric: tabular-nums;
 }
-
-.slip-label {
-  font-size: 7px;
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: #888;
-  font-weight: 700;
-}
-
-.slip-company {
-  font-size: 9px;
-  color: #555;
-  font-weight: 600;
-  border-bottom: 1px solid #999;
-  padding-bottom: 2px;
-  min-height: 14px;
-  margin-top: 2px;
-}
-
-.slip-qr {
-  width: 22mm;
-  height: 22mm;
-  flex-shrink: 0;
-}
-
-.slip-qr canvas, .slip-qr img {
-  width: 100% !important;
-  height: 100% !important;
-}
-
-.slip-footer {
-  font-size: 7px;
+.slip-company-line {
+  font-size: 7pt;
   color: #666;
+}
+.slip-company-line .label {
+  font-weight: 700;
+  color: #333;
+  display: block;
+  margin-bottom: 1mm;
+}
+.slip-company-line .blank {
+  border-bottom: 1px solid #999;
+  display: block;
+  height: 5mm;
+}
+.slip-qr {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 30mm;
+}
+.slip-qr canvas, .slip-qr img {
+  width: 24mm !important;
+  height: 24mm !important;
+}
+.slip-qr-label {
+  font-size: 6pt;
+  color: #444;
+  margin-top: 1mm;
   text-align: center;
-  margin-top: 4px;
-  border-top: 1px solid #eee;
-  padding-top: 3px;
+  line-height: 1.2;
+  font-weight: 600;
 }
 
-.slip-footer strong {
-  color: #E21833;
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: #999;
 }
 
 /* Print styles */
 @media print {
-  body {
-    background: white;
-    padding: 0;
-  }
-  .controls {
-    display: none;
-  }
-  .page {
+  body { background: white; }
+  .controls { display: none; }
+  .slips-page {
     box-shadow: none;
     margin: 0;
     page-break-after: always;
+    break-after: page;
+  }
+  .slips-page:last-child {
+    page-break-after: auto;
   }
   @page {
-    size: A4 portrait;
-    margin: 0;
+    size: letter;
+    margin: 10mm;
   }
 }
 </style>
 </head>
 <body>
 
-<!-- Controls (hidden when printing) -->
 <div class="controls">
   <h1>🎫 Maryland Day Slip Generator</h1>
-  <p>生成可打印的参与者编号纸条,带 QR 码指向获奖页面。</p>
-  
-  <div class="info">
-    📋 <strong>使用方法:</strong><br>
-    1. 设置数量(默认 100 张)→ 点 "Generate Slips"<br>
-    2. 浏览器顶部菜单 <strong>File → Print</strong>(或 Cmd+P)<br>
-    3. 选 <strong>"Save as PDF"</strong> 或直接打印<br>
-    4. 用剪刀沿虚线裁开,得到 100 张 slip
-  </div>
-  
   <div class="row">
-    <label>Start number:</label>
-    <input type="number" id="startNum" value="1" min="1">
-    <label>End number:</label>
-    <input type="number" id="endNum" value="100" min="1">
-    <button onclick="generateSlips()">Generate Slips</button>
-    <button onclick="window.print()" style="background:#1a8754;">🖨️ Print / Save PDF</button>
+    <div>
+      <label>Start #</label>
+      <input type="number" id="startNum" value="1" min="1" max="999">
+    </div>
+    <div>
+      <label>End #</label>
+      <input type="number" id="endNum" value="100" min="1" max="999">
+    </div>
+    <button onclick="generate()">Generate Slips</button>
+    <button class="secondary" onclick="window.print()">🖨️ Print / Save PDF</button>
+    <div class="info">
+      Tip: Use Chrome → Print → "Save as PDF". 12 slips per page on US Letter.
+    </div>
   </div>
 </div>
 
-<!-- Print area (slips will be inserted here) -->
-<div class="print-area" id="printArea"></div>
+<div id="slipsContainer">
+  <div class="empty-state">Loading slips...</div>
+</div>
 
 <script>
-const WINNERS_URL = window.location.origin + window.location.pathname.replace('slip.html', 'winners.html');
+var WINNERS_URL = 'https://wgu12345.github.io/maryland-day-2026/winners.html';
+var SLIPS_PER_PAGE = 12;
 
-function pad(n, width) {
-  return String(n).padStart(width, '0');
+function pad(n) {
+  var s = String(n);
+  while (s.length < 3) s = '0' + s;
+  return s;
 }
 
-function generateSlips() {
-  const start = parseInt(document.getElementById('startNum').value);
-  const end = parseInt(document.getElementById('endNum').value);
-  const total = end - start + 1;
+function generate() {
+  var startNum = parseInt(document.getElementById('startNum').value, 10);
+  var endNum = parseInt(document.getElementById('endNum').value, 10);
   
-  if (total <= 0 || total > 200) {
-    alert('请输入合理的范围(1–200 张)');
+  if (isNaN(startNum) || isNaN(endNum) || startNum > endNum || startNum < 1) {
+    alert('Please enter valid start and end numbers (start ≤ end, start ≥ 1)');
     return;
   }
   
-  const printArea = document.getElementById('printArea');
-  printArea.innerHTML = '';
-  
-  // Create pages of 10 slips each
-  let currentPage = null;
-  let slipsOnPage = 0;
-  
-  for (let i = 0; i < total; i++) {
-    if (slipsOnPage === 0) {
-      currentPage = document.createElement('div');
-      currentPage.className = 'page';
-      printArea.appendChild(currentPage);
-    }
-    
-    const num = start + i;
-    const numStr = pad(num, 3);
-    
-    const slip = document.createElement('div');
-    slip.className = 'slip';
-    slip.innerHTML = `
-      <div class="slip-header">
-        <img src="umd-logo.png" alt="UMD">
-        <div class="slip-header-title">Maryland Day Challenge</div>
-      </div>
-      
-      <div class="slip-body">
-        <div class="slip-text">
-          <div class="slip-label">Your Number</div>
-          <div class="slip-number">#${numStr}</div>
-          <div class="slip-label" style="margin-top:4px;">Company Name</div>
-          <div class="slip-company">&nbsp;</div>
-        </div>
-        <div class="slip-qr" id="qr-${num}"></div>
-      </div>
-      
-      <div class="slip-footer">
-        Scan QR at <strong>2:15 PM</strong> to see if you won! 🏆
-      </div>
-    `;
-    
-    currentPage.appendChild(slip);
-    
-    // Generate QR code (after element is in DOM)
-    QRCode.toCanvas(document.createElement('canvas'), WINNERS_URL, { 
-      width: 100, 
-      margin: 1, 
-      color: { dark: '#000', light: '#fff' } 
-    }, function(err, canvas) {
-      if (!err) {
-        const qrEl = document.getElementById(`qr-${num}`);
-        if (qrEl) qrEl.appendChild(canvas);
-      }
-    });
-    
-    slipsOnPage++;
-    if (slipsOnPage === 10) {
-      slipsOnPage = 0;
-    }
+  if (endNum - startNum + 1 > 300) {
+    if (!confirm('Generating ' + (endNum - startNum + 1) + ' slips. Continue?')) return;
   }
+  
+  var container = document.getElementById('slipsContainer');
+  container.innerHTML = '';
+  
+  var totalSlips = endNum - startNum + 1;
+  var totalPages = Math.ceil(totalSlips / SLIPS_PER_PAGE);
+  
+  for (var page = 0; page < totalPages; page++) {
+    var pageDiv = document.createElement('div');
+    pageDiv.className = 'slips-page';
+    
+    var pageStart = startNum + (page * SLIPS_PER_PAGE);
+    var pageEnd = Math.min(pageStart + SLIPS_PER_PAGE - 1, endNum);
+    
+    for (var num = pageStart; num <= pageEnd; num++) {
+      var slip = createSlip(num);
+      pageDiv.appendChild(slip);
+    }
+    
+    container.appendChild(pageDiv);
+  }
+  
+  // Generate QR codes after slips are in DOM
+  setTimeout(generateQRCodes, 50);
 }
 
-// Auto-generate on page load
-window.addEventListener('load', () => {
-  generateSlips();
-});
+function createSlip(num) {
+  var slip = document.createElement('div');
+  slip.className = 'slip';
+  slip.innerHTML = 
+    '<div class="slip-left">' +
+      '<div class="slip-title">🏆 Maryland Day<br>AI Challenge</div>' +
+      '<div class="slip-number">#' + pad(num) + '</div>' +
+      '<div class="slip-company-line">' +
+        '<span class="label">Company Name:</span>' +
+        '<span class="blank"></span>' +
+      '</div>' +
+    '</div>' +
+    '<div class="slip-qr">' +
+      '<div class="qr-target" data-num="' + num + '"></div>' +
+      '<div class="slip-qr-label">Scan at<br>2:15 PM</div>' +
+    '</div>';
+  return slip;
+}
+
+function generateQRCodes() {
+  var targets = document.querySelectorAll('.qr-target');
+  targets.forEach(function(target) {
+    target.innerHTML = '';
+    new QRCode(target, {
+      text: WINNERS_URL,
+      width: 90,
+      height: 90,
+      colorDark: '#000000',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+  });
+}
+
+// Auto-generate on load
+window.addEventListener('load', generate);
 </script>
 
 </body>
