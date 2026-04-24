@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Print Slips - Maryland Day 2026</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #f0f0f0;
+  padding: 20px;
+}
+
+/* Control panel - hidden when printing */
+.controls {
+  max-width: 800px;
+  margin: 0 auto 30px;
+  background: white;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.controls h1 {
+  font-size: 22px;
+  margin-bottom: 8px;
+  color: #E21833;
+}
+
+.controls p {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.controls .row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.controls label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #333;
+}
+
+.controls input {
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  width: 80px;
+}
+
+.controls button {
+  padding: 10px 24px;
+  background: #E21833;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.controls button:hover { background: #c01530; }
+
+.controls .info {
+  background: #fff9e5;
+  border: 1px solid #f0d890;
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 12px;
+  color: #6b5010;
+  line-height: 1.5;
+}
+
+/* Print sheets */
+.print-area {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+/* Each page = A4 portrait, 2 columns × 5 rows = 10 slips */
+.page {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+  padding: 10mm;
+  margin: 0 auto 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 4mm;
+  page-break-after: always;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.slip {
+  border: 1.5px dashed #999;
+  border-radius: 8px;
+  padding: 6mm;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  background: white;
+  min-height: 50mm;
+}
+
+.slip-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+
+.slip-header img {
+  height: 16px;
+}
+
+.slip-header-title {
+  font-size: 8px;
+  font-weight: 700;
+  color: #E21833;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.slip-body {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+  align-items: center;
+}
+
+.slip-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slip-number {
+  font-size: 26px;
+  font-weight: 900;
+  color: #E21833;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.slip-label {
+  font-size: 7px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: #888;
+  font-weight: 700;
+}
+
+.slip-company {
+  font-size: 9px;
+  color: #555;
+  font-weight: 600;
+  border-bottom: 1px solid #999;
+  padding-bottom: 2px;
+  min-height: 14px;
+  margin-top: 2px;
+}
+
+.slip-qr {
+  width: 22mm;
+  height: 22mm;
+  flex-shrink: 0;
+}
+
+.slip-qr canvas, .slip-qr img {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.slip-footer {
+  font-size: 7px;
+  color: #666;
+  text-align: center;
+  margin-top: 4px;
+  border-top: 1px solid #eee;
+  padding-top: 3px;
+}
+
+.slip-footer strong {
+  color: #E21833;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    padding: 0;
+  }
+  .controls {
+    display: none;
+  }
+  .page {
+    box-shadow: none;
+    margin: 0;
+    page-break-after: always;
+  }
+  @page {
+    size: A4 portrait;
+    margin: 0;
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- Controls (hidden when printing) -->
+<div class="controls">
+  <h1>🎫 Maryland Day Slip Generator</h1>
+  <p>生成可打印的参与者编号纸条,带 QR 码指向获奖页面。</p>
+  
+  <div class="info">
+    📋 <strong>使用方法:</strong><br>
+    1. 设置数量(默认 100 张)→ 点 "Generate Slips"<br>
+    2. 浏览器顶部菜单 <strong>File → Print</strong>(或 Cmd+P)<br>
+    3. 选 <strong>"Save as PDF"</strong> 或直接打印<br>
+    4. 用剪刀沿虚线裁开,得到 100 张 slip
+  </div>
+  
+  <div class="row">
+    <label>Start number:</label>
+    <input type="number" id="startNum" value="1" min="1">
+    <label>End number:</label>
+    <input type="number" id="endNum" value="100" min="1">
+    <button onclick="generateSlips()">Generate Slips</button>
+    <button onclick="window.print()" style="background:#1a8754;">🖨️ Print / Save PDF</button>
+  </div>
+</div>
+
+<!-- Print area (slips will be inserted here) -->
+<div class="print-area" id="printArea"></div>
+
+<script>
+const WINNERS_URL = window.location.origin + window.location.pathname.replace('slip.html', 'winners.html');
+
+function pad(n, width) {
+  return String(n).padStart(width, '0');
+}
+
+function generateSlips() {
+  const start = parseInt(document.getElementById('startNum').value);
+  const end = parseInt(document.getElementById('endNum').value);
+  const total = end - start + 1;
+  
+  if (total <= 0 || total > 200) {
+    alert('请输入合理的范围(1–200 张)');
+    return;
+  }
+  
+  const printArea = document.getElementById('printArea');
+  printArea.innerHTML = '';
+  
+  // Create pages of 10 slips each
+  let currentPage = null;
+  let slipsOnPage = 0;
+  
+  for (let i = 0; i < total; i++) {
+    if (slipsOnPage === 0) {
+      currentPage = document.createElement('div');
+      currentPage.className = 'page';
+      printArea.appendChild(currentPage);
+    }
+    
+    const num = start + i;
+    const numStr = pad(num, 3);
+    
+    const slip = document.createElement('div');
+    slip.className = 'slip';
+    slip.innerHTML = `
+      <div class="slip-header">
+        <img src="umd-logo.png" alt="UMD">
+        <div class="slip-header-title">Maryland Day Challenge</div>
+      </div>
+      
+      <div class="slip-body">
+        <div class="slip-text">
+          <div class="slip-label">Your Number</div>
+          <div class="slip-number">#${numStr}</div>
+          <div class="slip-label" style="margin-top:4px;">Company Name</div>
+          <div class="slip-company">&nbsp;</div>
+        </div>
+        <div class="slip-qr" id="qr-${num}"></div>
+      </div>
+      
+      <div class="slip-footer">
+        Scan QR at <strong>2:15 PM</strong> to see if you won! 🏆
+      </div>
+    `;
+    
+    currentPage.appendChild(slip);
+    
+    // Generate QR code (after element is in DOM)
+    QRCode.toCanvas(document.createElement('canvas'), WINNERS_URL, { 
+      width: 100, 
+      margin: 1, 
+      color: { dark: '#000', light: '#fff' } 
+    }, function(err, canvas) {
+      if (!err) {
+        const qrEl = document.getElementById(`qr-${num}`);
+        if (qrEl) qrEl.appendChild(canvas);
+      }
+    });
+    
+    slipsOnPage++;
+    if (slipsOnPage === 10) {
+      slipsOnPage = 0;
+    }
+  }
+}
+
+// Auto-generate on page load
+window.addEventListener('load', () => {
+  generateSlips();
+});
+</script>
+
+</body>
+</html>
