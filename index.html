@@ -6,7 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Maryland Day">
-<title>Smith Business Idea Challenge 2026</title>
+<title>Maryland Day AI Challenge 2026</title>
 <style>
 * {
   margin: 0;
@@ -16,9 +16,8 @@
 }
 
 html, body {
-  height: 100vh;
+  min-height: 100vh;
   width: 100%;
-  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   background: #f5f5f5;
 }
@@ -26,266 +25,273 @@ html, body {
 body {
   display: flex;
   flex-direction: column;
+  min-height: 100vh;
 }
 
-/* Top Header Strip */
+/* Top UMD strip */
 .top-strip {
   background: white;
-  padding: 12px 24px;
+  padding: 12px 28px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 2px solid #E21833;
+  border-bottom: 3px solid #E21833;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  z-index: 10;
 }
 
-.umd-logo-wrap {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.umd-logo-wrap img {
+.top-strip img {
   height: 40px;
 }
 
 .top-strip .right-text {
   font-size: 13px;
-  color: #666;
+  color: #333;
   font-weight: 500;
 }
 
 .top-strip .right-text strong {
   color: #E21833;
+  font-weight: 700;
 }
 
-/* Main layout: content area split into chat + sidebar */
-.main-area {
+/* Main content */
+.container {
   flex: 1;
-  display: flex;
-  overflow: hidden;
-}
-
-/* Left: chat zone */
-.chat-zone {
-  flex: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  background: #fafafa;
-  overflow: hidden;
-  position: relative;
+  gap: 20px;
 }
 
 /* Hero banner */
-.hero {
-  background: linear-gradient(135deg, #fff7e8 0%, #ffe8a8 100%);
-  padding: 20px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  border-bottom: 1px solid #eee;
-  flex-shrink: 0;
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-text h1 {
-  font-size: 22px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 4px;
-}
-
-.hero-text h1 .highlight {
-  color: #E21833;
-}
-
-.hero-text p {
-  font-size: 13px;
-  color: #666;
-  margin-top: 4px;
-}
-
-.hero-mascot {
-  height: 110px;
-  flex-shrink: 0;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
-}
-
-/* Iframe container */
-.chat-container {
-  flex: 1;
-  position: relative;
-  overflow: hidden;
-  background: white;
-}
-
-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
-
-/* Right: sidebar */
-.sidebar {
-  width: 280px;
-  background: white;
-  padding: 20px;
-  border-left: 1px solid #eee;
+.hero-banner {
+  background-image: url('testudo-banner.png');
+  background-size: cover;
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-color: #fff7e8;
+  border-radius: 18px;
+  padding: 36px 44px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  overflow-y: auto;
-  flex-shrink: 0;
+  justify-content: center;
+  min-height: 240px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
 }
 
-.sidebar-card {
+.hero-banner h1 {
+  font-size: 30px;
+  font-weight: 400;
+  color: #1a1a1a;
+  line-height: 1.1;
+  max-width: 55%;
+}
+
+.hero-banner h1 .highlight {
+  color: #E21833;
+  font-weight: 800;
+  display: block;
+  font-size: 42px;
+  margin: 4px 0;
+}
+
+.hero-banner h1 .challenge {
+  font-weight: 800;
+  display: block;
+  font-size: 42px;
+}
+
+.hero-banner .tagline {
+  margin-top: 18px;
+  font-size: 15px;
+  color: #555;
+  max-width: 55%;
+}
+
+/* Cards row */
+.card {
   background: white;
-  border: 1px solid #eee;
-  border-radius: 14px;
-  padding: 16px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  border-radius: 18px;
+  padding: 22px 28px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f0f0f0;
 }
 
-/* AI Coach card */
-.coach-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #f0f0f0;
-  margin-bottom: 12px;
-}
-
-.coach-avatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-}
-
-.coach-title {
-  font-size: 16px;
+.card-title {
+  font-size: 18px;
   font-weight: 700;
   color: #1a1a1a;
-  line-height: 1.2;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-.coach-sub {
-  font-size: 12px;
-  color: #888;
-  margin-top: 2px;
+/* How it works steps */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.step-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #f9f0f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.step-icon.icon-light { background: #fef5cc; }
+.step-icon.icon-blue { background: #e6f0fd; }
+.step-icon.icon-star { background: #fff3cd; }
+.step-icon.icon-party { background: #fde2e4; }
+
+.step-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #1a1a1a;
   line-height: 1.3;
 }
 
-/* Progress */
-.progress-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin-bottom: 10px;
-}
-
-.progress-steps {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.step-desc {
   font-size: 13px;
   color: #666;
+  line-height: 1.5;
 }
 
-.progress-step {
+.step-desc .red {
+  color: #E21833;
+  font-weight: 700;
+}
+
+/* Before we start + Prize side by side */
+.bottom-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 20px;
+}
+
+.rules-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.rule {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.rule-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-.progress-step .dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
+  justify-content: center;
+  font-size: 14px;
   flex-shrink: 0;
 }
 
-/* Tips card */
-.tips-card {
-  background: linear-gradient(135deg, #fff9e5 0%, #ffeec7 100%);
-  border: 1px solid #ffd77d;
-}
+.rule-icon.shield { background: #e8e8e8; }
+.rule-icon.target { background: #fde2e4; }
+.rule-icon.check { background: #d4edda; color: #1e7e34; font-weight: 700; }
 
-.tips-title {
-  font-size: 14px;
-  font-weight: 700;
-  color: #8b6914;
-  margin-bottom: 6px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.tips-text {
-  font-size: 12px;
-  color: #6b5010;
+.rule-text {
+  font-size: 13px;
+  color: #555;
   line-height: 1.5;
+}
+
+.rule-text strong {
+  color: #1a1a1a;
+  font-weight: 700;
 }
 
 /* Prize card */
 .prize-card {
   background: linear-gradient(135deg, #fff3cd 0%, #ffe08a 100%);
-  border: 1px solid #ffcd4a;
-  text-align: center;
-  padding: 18px 14px;
+  border: 1px solid #f5c842;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
 }
 
 .prize-trophy {
-  font-size: 36px;
-  margin-bottom: 4px;
+  font-size: 56px;
+  flex-shrink: 0;
 }
 
-.prize-title {
-  font-size: 15px;
+.prize-text {
+  font-size: 17px;
   font-weight: 800;
-  color: #8b6914;
+  color: #1a1a1a;
   line-height: 1.3;
 }
 
-.prize-sub {
-  font-size: 11px;
-  color: #8b6914;
-  margin-top: 4px;
-  font-weight: 600;
+/* Start button */
+.start-btn-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 12px 0 24px;
 }
 
-/* Hide sidebar on mobile */
+.start-btn {
+  background: #E21833;
+  color: white;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 18px 60px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(226, 24, 51, 0.35);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.start-btn:active {
+  transform: scale(0.96);
+  box-shadow: 0 3px 12px rgba(226, 24, 51, 0.35);
+}
+
+/* Mobile */
 @media (max-width: 900px) {
-  .sidebar {
-    display: none;
-  }
-  .hero {
-    padding: 14px 20px;
-  }
-  .hero-text h1 {
-    font-size: 17px;
-  }
-  .hero-mascot {
-    height: 80px;
-  }
-  .top-strip {
-    padding: 8px 16px;
-  }
-  .umd-logo-wrap img {
-    height: 32px;
-  }
-  .top-strip .right-text {
-    font-size: 11px;
-  }
+  .container { padding: 14px; gap: 14px; }
+  .hero-banner { padding: 20px 24px; min-height: 180px; border-radius: 14px; }
+  .hero-banner h1 { font-size: 20px; max-width: 60%; }
+  .hero-banner h1 .highlight, .hero-banner h1 .challenge { font-size: 28px; }
+  .hero-banner .tagline { font-size: 12px; max-width: 60%; margin-top: 10px; }
+  .steps-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .bottom-row { grid-template-columns: 1fr; }
+  .rules-grid { grid-template-columns: 1fr; gap: 10px; }
+  .prize-card { padding: 14px; }
+  .prize-trophy { font-size: 40px; }
+  .prize-text { font-size: 14px; }
+  .top-strip { padding: 8px 16px; }
+  .top-strip img { height: 32px; }
+  .top-strip .right-text { font-size: 10px; }
+  .start-btn { padding: 14px 40px; font-size: 16px; }
 }
 </style>
 </head>
@@ -293,86 +299,82 @@ iframe {
 
 <!-- Top UMD strip -->
 <div class="top-strip">
-  <div class="umd-logo-wrap">
-    <img src="umd-logo.png" alt="University of Maryland">
-  </div>
+  <img src="umd-logo.png" alt="University of Maryland">
   <div class="right-text">Maryland Day <strong>2026</strong> 🏆 Winners announced at 2:15 PM</div>
 </div>
 
-<!-- Main area: left chat + right sidebar -->
-<div class="main-area">
+<!-- Main content -->
+<div class="container">
   
-  <!-- Chat zone -->
-  <div class="chat-zone">
-    
-    <!-- Hero -->
-    <div class="hero">
-      <div class="hero-text">
-        <h1>Welcome to the <span class="highlight">Maryland Day</span><br>AI Challenge!</h1>
-        <p>Pitch your startup idea. Get AI coaching. Win a prize. 🏆</p>
+  <!-- Hero with Testudo banner -->
+  <div class="hero-banner">
+    <h1>
+      Welcome to the
+      <span class="highlight">Maryland Day</span>
+      <span class="challenge">AI Challenge!</span>
+    </h1>
+    <p class="tagline">Pitch your startup idea. Get AI coaching. Win a prize. 🏆</p>
+  </div>
+  
+  <!-- How it works -->
+  <div class="card">
+    <div class="card-title">🚀 How it works</div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-icon icon-light">💡</div>
+        <div class="step-title">1. Share your idea</div>
+        <div class="step-desc">Tell me your business idea in 2–3 sentences</div>
       </div>
-      <img src="testudo-wave.png" alt="Testudo" class="hero-mascot">
+      <div class="step">
+        <div class="step-icon icon-blue">🎤</div>
+        <div class="step-title">2. Answer my questions</div>
+        <div class="step-desc">I'll ask about your customers, revenue, and competition</div>
+      </div>
+      <div class="step">
+        <div class="step-icon icon-star">⭐</div>
+        <div class="step-title">3. Get personalized feedback</div>
+        <div class="step-desc">Including a score and similar companies to explore</div>
+      </div>
+      <div class="step">
+        <div class="step-icon icon-party">🎉</div>
+        <div class="step-title">4. Enter to win</div>
+        <div class="step-desc">Top ideas will be announced at <span class="red">2:15 PM</span> on our website</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Before we start + Prize side by side -->
+  <div class="bottom-row">
+    
+    <div class="card">
+      <div class="card-title">📝 Before we start</div>
+      <div class="rules-grid">
+        <div class="rule">
+          <div class="rule-icon shield">🛡️</div>
+          <div class="rule-text">Keep each answer <strong>short</strong> — under 5 sentences</div>
+        </div>
+        <div class="rule">
+          <div class="rule-icon target">🎯</div>
+          <div class="rule-text"><strong>4–5 rounds</strong> and you'll have a full coaching session</div>
+        </div>
+        <div class="rule">
+          <div class="rule-icon check">✓</div>
+          <div class="rule-text"><strong>No wrong answers</strong> — this is about exploring your idea</div>
+        </div>
+      </div>
     </div>
     
-    <!-- Dify iframe -->
-    <div class="chat-container">
-      <iframe 
-        src="https://udify.app/chatbot/jXxgaMoHYmK7P4Nn"
-        frameborder="0"
-        allow="microphone; clipboard-read; clipboard-write">
-      </iframe>
+    <div class="card prize-card">
+      <div class="prize-trophy">🏆</div>
+      <div class="prize-text">Think big.<br>Start here.<br>Go Terps! 🐢</div>
     </div>
     
   </div>
   
-  <!-- Sidebar -->
-  <aside class="sidebar">
-    
-    <!-- AI Coach card -->
-    <div class="sidebar-card">
-      <div class="coach-card">
-        <img src="testudo-avatar.png" alt="AI Coach" class="coach-avatar">
-        <div>
-          <div class="coach-title">AI Coach</div>
-          <div class="coach-sub">Your idea coach for Maryland Day</div>
-        </div>
-      </div>
-      
-      <div class="progress-title">Your Journey</div>
-      <div class="progress-steps">
-        <div class="progress-step">
-          <div class="dot"></div>
-          <span>Share Your Idea</span>
-        </div>
-        <div class="progress-step">
-          <div class="dot"></div>
-          <span>Answer Questions</span>
-        </div>
-        <div class="progress-step">
-          <div class="dot"></div>
-          <span>Get Feedback</span>
-        </div>
-        <div class="progress-step">
-          <div class="dot"></div>
-          <span>Enter to Win</span>
-        </div>
-      </div>
-    </div>
-    
-    <!-- Tips card -->
-    <div class="sidebar-card tips-card">
-      <div class="tips-title">💡 Tips</div>
-      <div class="tips-text">The more details you share, the better feedback I can provide!</div>
-    </div>
-    
-    <!-- Prize card -->
-    <div class="sidebar-card prize-card">
-      <div class="prize-trophy">🏆</div>
-      <div class="prize-title">Think big.<br>Start here.<br>Go Terps! 🐢</div>
-      <div class="prize-sub">Winners at 2:15 PM</div>
-    </div>
-    
-  </aside>
+  <!-- Start button -->
+  <div class="start-btn-wrap">
+    <a href="chat.html" class="start-btn">Start Now →</a>
+  </div>
   
 </div>
 
